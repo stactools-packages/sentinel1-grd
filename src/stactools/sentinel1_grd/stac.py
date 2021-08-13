@@ -11,20 +11,15 @@ from pystac.extensions.sat import OrbitState, SatExtension
 from stactools.core.io import ReadHrefModifier
 from stactools.core.projection import transform_from_bbox
 
-# TODO change
-# from stactools.sentinel1_grd.safe_manifest import SafeManifest
-import sys
-
-sys.path.append("/home/mlamare/repos/stac/sentinel1-grd/src/stactools/sentinel1_grd")
-from safe_manifest import SafeManifest
-from product_metadata import ProductMetadata
-from constants import (
+from stactools.sentinel1_grd.safe_manifest import SafeManifest
+from stactools.sentinel1_grd.product_metadata import ProductMetadata
+from stactools.sentinel1_grd.constants import (
     SENTINEL_PROVIDER,
     SENTINEL_CONSTELLATION,
     INSPIRE_METADATA_ASSET_KEY,
     SENTINEL_LICENSE,
 )
-from utils import image_asset_from_href
+from stactools.sentinel1_grd.utils import image_asset_from_href
 
 logger = logging.getLogger(__name__)
 

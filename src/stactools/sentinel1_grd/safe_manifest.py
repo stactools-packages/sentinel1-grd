@@ -6,11 +6,7 @@ import pystac
 from stactools.core.io import ReadHrefModifier
 from stactools.core.io.xml import XmlElement
 
-# TODO change back
-import sys
-
-sys.path.append("/home/mlamare/repos/stac/sentinel1-grd/src/stactools/sentinel1_grd")
-from constants import SAFE_MANIFEST_ASSET_KEY
+from stactools.sentinel1_grd.constants import SAFE_MANIFEST_ASSET_KEY
 
 
 class ManifestError(Exception):
