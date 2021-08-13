@@ -1,30 +1,31 @@
 # stactools-ephemeral
 
-- Name: ephemeral
-- Package: `stactools.ephemeral`
-- PyPI: https://pypi.org/project/stactools-ephemeral/
-- Owner: @githubusername
-- Dataset homepage: http://example.com
+- Name: sentinel1-grd
+- Package: `stactools.sentinel1-grd`
+- PyPI: Coming soon
+- Owner: @maximlamare
+- Dataset homepage: https://registry.opendata.aws/sentinel-1/
 - STAC extensions used:
   - [proj](https://github.com/stac-extensions/projection/)
-- Extra fields:
-  - `ephemeral:custom`: A custom attribute
+  - [eo](https://github.com/stac-extensions/eo)
+  - [sat](https://github.com/stac-extensions/sat)
 
-A short description of the package and its usage.
+Sentinel-1 subpackage for [stactools](https://github.com/stac-utils/stactools)
+
+**NOTE**: Currently configure for .SAFE format.
 
 ## Examples
 
 ### STAC objects
 
-- [Collection](examples/collection.json)
-- [Item](examples/item/item.json)
+- [Item](examples/item.json)
 
 ### Command-line usage
 
 Description of the command line functions
 
 ```bash
-$ stac ephemeral create-item source destination
+$ stac sentinel1-grd create-item source destination
 ```
 
-Use `stac ephemeral --help` to see all subcommands and options.
+Use `stac sentinel1-grd --help` to see all subcommands and options.
