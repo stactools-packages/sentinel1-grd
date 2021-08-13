@@ -1,59 +1,44 @@
-import os.path
+from tests import test_data
 from tempfile import TemporaryDirectory
 
-import pystac
-from stactools.ephemeral.commands import create_ephemeralcmd_command
-from stactools.testing import CliTestCase
 
-
-class CommandsTest(CliTestCase):
+class CreateItemTest(CliTestCase):
     def create_subcommand_functions(self):
-        return [create_ephemeralcmd_command]
-
-    def test_create_collection(self):
-        with TemporaryDirectory() as tmp_dir:
-            # Run your custom create-collection command and validate
-
-            # Example:
-            destination = os.path.join(tmp_dir, "collection.json")
-
-            result = self.run_command(
-                ["ephemeralcmd", "create-collection", destination])
-
-            self.assertEqual(result.exit_code,
-                             0,
-                             msg="\n{}".format(result.output))
-
-            jsons = [p for p in os.listdir(tmp_dir) if p.endswith(".json")]
-            self.assertEqual(len(jsons), 1)
-
-            collection = pystac.read_file(destination)
-            self.assertEqual(collection.id, "my-collection-id")
-            # self.assertEqual(item.other_attr...
-
-            collection.validate()
+        return [create_sentinel1grd_command]
 
     def test_create_item(self):
-        with TemporaryDirectory() as tmp_dir:
-            # Run your custom create-item command and validate
+        item_id = "S2A_MSIL2A_20190212T192651_R013_T07HFE_20201007T160857"
+        granule_href = test_data.get_path(
+            "data-files/S2A_MSIL2A_20190212T192651_N0212_R013_T07HFE_20201007T160857.SAFE"
+        )
 
-            # Example:
-            destination = os.path.join(tmp_dir, "collection.json")
-            result = self.run_command([
-                "ephemeralcmd",
-                "create-item",
-                "/path/to/asset.tif",
-                destination,
-            ])
-            self.assertEqual(result.exit_code,
-                             0,
-                             msg="\n{}".format(result.output))
+        with self.subTest(granule_href):
+            with TemporaryDirectory() as tmp_dir:
+                cmd = ["sentinel2", "create-item", granule_href, tmp_dir]
+                self.run_command(cmd)
 
-            jsons = [p for p in os.listdir(tmp_dir) if p.endswith(".json")]
-            self.assertEqual(len(jsons), 1)
+                jsons = [p for p in os.listdir(tmp_dir) if p.endswith(".json")]
+                self.assertEqual(len(jsons), 1)
+                fname = jsons[0]
 
-            item = pystac.read_file(destination)
-            self.assertEqual(item.id, "my-item-id")
-            # self.assertEqual(item.other_attr...
+                item = pystac.Item.from_file(os.path.join(tmp_dir, fname))
 
-            item.validate()
+                item.validate()
+
+                self.assertEqual(item.id, item_id)
+
+                bands_seen = set()
+                bands_to_assets = defaultdict(list)
+
+                for key, asset in item.assets.items():
+                    # Ensure that there's no relative path parts
+                    # in the asset HREFs
+                    self.assertTrue("/./" not in asset.href)
+
+                    self.assertTrue(is_absolute_href(asset.href))
+                    asset_eo = EOExtension.ext(asset)
+                    bands = asset_eo.bands
+                    if bands is not None:
+                        bands_seen |= set(b.name for b in bands)
+
+                self.assertEqual(bands_seen, set(SENTINEL_BANDS.keys()))
