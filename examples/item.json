@@ -1,0 +1,173 @@
+{
+  "type": "Feature",
+  "stac_version": "1.0.0",
+  "id": "S1A_IW_GRDH_1SDV_20210809T173953_20210809T174018_039156_049F13_6FF8",
+  "properties": {
+    "providers": [
+      {
+        "name": "ESA",
+        "roles": [
+          "producer",
+          "processor",
+          "licensor"
+        ],
+        "url": "https://earth.esa.int/web/guest/home"
+      }
+    ],
+    "platform": "SENTINEL-1A",
+    "constellation": "Sentinel 1",
+    "sat:orbit_state": "ascending",
+    "sat:relative_orbit": "59",
+    "s1:product_uri": "S1A_IW_GRDH_1SDV_20210809T173953_20210809T174018_039156_049F13_6FF8.SAFE",
+    "s1:instrument_configuration_ID": "7",
+    "s1:product_type": "GRD",
+    "s1:instrument_mode": "IW",
+    "s1:datatake_id": "302867",
+    "s1:polarisation": [
+      "VV",
+      "VH"
+    ],
+    "datetime": "2021-08-09T17:39:53.153776Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          1.512143,
+          46.03389
+        ],
+        [
+          4.85136,
+          46.436539
+        ],
+        [
+          5.188996,
+          44.938713
+        ],
+        [
+          1.937196,
+          44.536255
+        ],
+        [
+          1.512143,
+          46.03389
+        ]
+      ]
+    ]
+  },
+  "links": [
+    {
+      "rel": "license",
+      "href": "https://sentinel.esa.int/documents/247904/690755/Sentinel_Data_Legal_Notice"
+    },
+    {
+      "rel": "self",
+      "href": "/home/mlamare/repos/stac/testing/test_output.json/S1A_IW_GRDH_1SDV_20210809T173953_20210809T174018_039156_049F13_6FF8.json",
+      "type": "application/json"
+    }
+  ],
+  "assets": {
+    "safe-manifest": {
+      "href": "/home/mlamare/Downloads/S1A_IW_GRDH_1SDV_20210809T173953_20210809T174018_039156_049F13_6FF8.SAFE/manifest.safe",
+      "type": "application/xml",
+      "roles": [
+        "metadata"
+      ]
+    },
+    "product-metadata": {
+      "href": "/home/mlamare/Downloads/S1A_IW_GRDH_1SDV_20210809T173953_20210809T174018_039156_049F13_6FF8.SAFE/manifest.safe",
+      "type": "application/xml",
+      "roles": [
+        "metadata"
+      ]
+    },
+    "VV_annotation": {
+      "href": "/home/mlamare/Downloads/S1A_IW_GRDH_1SDV_20210809T173953_20210809T174018_039156_049F13_6FF8.SAFE/annotation/s1a-iw-grd-vv-20210809t173953-20210809t174018-039156-049f13-001.xml",
+      "type": "application/xml",
+      "roles": [
+        "metadata"
+      ]
+    },
+    "VH_annotation": {
+      "href": "/home/mlamare/Downloads/S1A_IW_GRDH_1SDV_20210809T173953_20210809T174018_039156_049F13_6FF8.SAFE/annotation/s1a-iw-grd-vh-20210809t173953-20210809t174018-039156-049f13-002.xml",
+      "type": "application/xml",
+      "roles": [
+        "metadata"
+      ]
+    },
+    "VV_calibration": {
+      "href": "/home/mlamare/Downloads/S1A_IW_GRDH_1SDV_20210809T173953_20210809T174018_039156_049F13_6FF8.SAFE/annotation/calibration/calibration-s1a-iw-grd-vv-20210809t173953-20210809t174018-039156-049f13-001.xml",
+      "type": "application/xml",
+      "roles": [
+        "metadata"
+      ]
+    },
+    "VH_calibration": {
+      "href": "/home/mlamare/Downloads/S1A_IW_GRDH_1SDV_20210809T173953_20210809T174018_039156_049F13_6FF8.SAFE/annotation/calibration/calibration-s1a-iw-grd-vh-20210809t173953-20210809t174018-039156-049f13-002.xml",
+      "type": "application/xml",
+      "roles": [
+        "metadata"
+      ]
+    },
+    "VV_noise": {
+      "href": "/home/mlamare/Downloads/S1A_IW_GRDH_1SDV_20210809T173953_20210809T174018_039156_049F13_6FF8.SAFE/annotation/calibration/noise-s1a-iw-grd-vv-20210809t173953-20210809t174018-039156-049f13-001.xml",
+      "type": "application/xml",
+      "roles": [
+        "metadata"
+      ]
+    },
+    "VH_noise": {
+      "href": "/home/mlamare/Downloads/S1A_IW_GRDH_1SDV_20210809T173953_20210809T174018_039156_049F13_6FF8.SAFE/annotation/calibration/noise-s1a-iw-grd-vh-20210809t173953-20210809t174018-039156-049f13-002.xml",
+      "type": "application/xml",
+      "roles": [
+        "metadata"
+      ]
+    },
+    "vh": {
+      "href": "/home/mlamare/Downloads/S1A_IW_GRDH_1SDV_20210809T173953_20210809T174018_039156_049F13_6FF8.SAFE/s1a-iw-grd-vh-20210809t173953-20210809t174018-039156-049f13-002.tiff",
+      "type": "image/tiff; application=geotiff",
+      "title": "VH - 10m",
+      "eo:bands": [
+        {
+          "name": "VH",
+          "description": "vertical transmit and horizontal receive"
+        }
+      ],
+      "roles": [
+        "data"
+      ]
+    },
+    "vv": {
+      "href": "/home/mlamare/Downloads/S1A_IW_GRDH_1SDV_20210809T173953_20210809T174018_039156_049F13_6FF8.SAFE/s1a-iw-grd-vv-20210809t173953-20210809t174018-039156-049f13-001.tiff",
+      "type": "image/tiff; application=geotiff",
+      "title": "VV - 10m",
+      "eo:bands": [
+        {
+          "name": "VV",
+          "description": "vertical transmit and vertical receive"
+        }
+      ],
+      "roles": [
+        "data"
+      ]
+    },
+    "preview": {
+      "href": "/home/mlamare/Downloads/S1A_IW_GRDH_1SDV_20210809T173953_20210809T174018_039156_049F13_6FF8.SAFE/preview/quick-look.png",
+      "type": "image/png",
+      "roles": [
+        "thumbnail"
+      ]
+    }
+  },
+  "bbox": [
+    1.512143,
+    44.536255,
+    5.188996,
+    46.436539
+  ],
+  "stac_extensions": [
+    "https://stac-extensions.github.io/eo/v1.0.0/schema.json",
+    "https://stac-extensions.github.io/sat/v1.0.0/schema.json"
+  ]
+}
