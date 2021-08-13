@@ -1,4 +1,4 @@
-# stactools-ephemeral
+# sentinel1-grd
 
 - Name: sentinel1-grd
 - Package: `stactools.sentinel1-grd`
