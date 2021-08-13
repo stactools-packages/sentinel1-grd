@@ -46,21 +46,10 @@ def create_item(
     """
 
     safe_manifest = SafeManifest(granule_href, read_href_modifier)
-    print(safe_manifest.__dict__)
 
     product_metadata = ProductMetadata(
         safe_manifest.product_metadata_href, read_href_modifier
     )
-
-    print(product_metadata.product_id)
-    print(product_metadata.scene_id)
-    print(product_metadata.bbox)
-    print(product_metadata.geometry)
-    print(product_metadata.datetime)
-
-    # granule_metadata = GranuleMetadata(
-    #     safe_manifest.granule_metadata_href, read_href_modifier
-    # )
 
     item = pystac.Item(
         id=product_metadata.scene_id,
@@ -70,59 +59,29 @@ def create_item(
         properties={},
     )
 
-    print(
-        f"item id: {item.id}\n"
-        f"item geometry: {item.geometry}\n"
-        f"item bbox: {item.bbox}\n"
-        f"item.datetime: {item.datetime}\n"
-        f"platform: {product_metadata.platform}\n"
-        "-----------------------------------------------"
-    )
-
     # --Common metadata--
-
     item.common_metadata.providers = [SENTINEL_PROVIDER]
-
     item.common_metadata.platform = product_metadata.platform
     item.common_metadata.constellation = SENTINEL_CONSTELLATION
-    # item.common_metadata.instruments = SENTINEL_INSTRUMENTS
-
-    print(
-        f"item.common_metadata.providers: {item.common_metadata.providers}\n"
-        f"item.common_metadata.platform: {item.common_metadata.platform}\n"
-        f"item.common_metadata.constellation: {item.common_metadata.constellation}\n"
-        "-----------------------------------------------"
-    )
-
-    import sys
 
     # --Extensions--
 
     # eo
     eo = EOExtension.ext(item, add_if_missing=True)
-    print(eo.__dict__)
+
     # sat
     sat = SatExtension.ext(item, add_if_missing=True)
     sat.orbit_state = OrbitState(product_metadata.orbit_state.lower())
     sat.orbit_number = product_metadata.orbit_number
     sat.cycle_number = product_metadata.cycle_number
     sat.relative_orbit = product_metadata.relative_orbit
-    print(sat.__dict__)
 
     # s1 properties
-    item.properties.update(
-        {**product_metadata.metadata_dict}  # , **granule_metadata.metadata_dict}
-    )
-    print("-------------------------")
-    print("PROPERTIES", item.properties)
+    item.properties.update({**product_metadata.metadata_dict})
 
     # --Assets--
 
     # Metadata
-    print("---------------------")
-    print("DICT")
-    print(safe_manifest.calibration_hrefs)
-
     item.add_asset(*safe_manifest.create_asset())
     item.add_asset(*product_metadata.create_asset())
 
@@ -159,18 +118,6 @@ def create_item(
             ),
         )
 
-    print("------------------------------------------")
-    print("Updated item")
-    print(item.__dict__)
-
-    print("-----------------------")
-
-    print(
-        image_asset_from_href(
-            os.path.join(granule_href, product_metadata.image_paths[0]), item
-        )
-    )
-
     image_assets = dict(
         [
             image_asset_from_href(
@@ -185,7 +132,6 @@ def create_item(
         assert key not in item.assets
         item.add_asset(key, asset)
 
-    print(image_assets)
     # Thumbnail
 
     if safe_manifest.thumbnail_href is not None:
@@ -199,7 +145,6 @@ def create_item(
         )
 
     # --Links--
-
     item.links.append(SENTINEL_LICENSE)
 
     return item
