@@ -11,7 +11,7 @@ from pystac.extensions.sat import OrbitState, SatExtension
 from stactools.core.io import ReadHrefModifier
 from stactools.core.projection import transform_from_bbox
 
-from stactools.sentinel1_grd.safe_manifest import SafeManifest
+from stactools.sentinel1_grd.metadata_links import MetadataLinks
 from stactools.sentinel1_grd.product_metadata import ProductMetadata
 from stactools.sentinel1_grd.constants import (
     SENTINEL_PROVIDER,
@@ -40,10 +40,10 @@ def create_item(
         pystac.Item: An item representing the Sentinel-1 GRD scene.
     """
 
-    safe_manifest = SafeManifest(granule_href, read_href_modifier)
+    metalinks = MetadataLinks(granule_href, read_href_modifier)
 
     product_metadata = ProductMetadata(
-        safe_manifest.product_metadata_href, read_href_modifier
+        metalinks.product_metadata_href, read_href_modifier
     )
 
     item = pystac.Item(
@@ -77,7 +77,7 @@ def create_item(
     # --Assets--
 
     # Metadata
-    item.add_asset(*safe_manifest.create_asset())
+    item.add_asset(*metalinks.create_asset())
     item.add_asset(*product_metadata.create_asset())
 
     # Annotations for bands
@@ -85,7 +85,7 @@ def create_item(
         item.add_asset(
             f"{x}_annotation",
             pystac.Asset(
-                href=[s for s in safe_manifest.annotation_hrefs if x.lower() in s][0],
+                href=[s for s in metalinks.annotation_hrefs if x.lower() in s][0],
                 media_type=pystac.MediaType.XML,
                 roles=["metadata"],
             ),
@@ -96,7 +96,7 @@ def create_item(
         item.add_asset(
             f"{x}_calibration",
             pystac.Asset(
-                href=[s for s in safe_manifest.calibration_hrefs if x.lower() in s][0],
+                href=[s for s in metalinks.calibration_hrefs if x.lower() in s][0],
                 media_type=pystac.MediaType.XML,
                 roles=["metadata"],
             ),
@@ -107,7 +107,7 @@ def create_item(
         item.add_asset(
             f"{x}_noise",
             pystac.Asset(
-                href=[s for s in safe_manifest.noise_hrefs if x.lower() in s][0],
+                href=[s for s in metalinks.noise_hrefs if x.lower() in s][0],
                 media_type=pystac.MediaType.XML,
                 roles=["metadata"],
             ),
@@ -129,11 +129,11 @@ def create_item(
 
     # Thumbnail
 
-    if safe_manifest.thumbnail_href is not None:
+    if metalinks.thumbnail_href is not None:
         item.add_asset(
             "preview",
             pystac.Asset(
-                href=safe_manifest.thumbnail_href,
+                href=metalinks.thumbnail_href,
                 media_type=pystac.MediaType.PNG,
                 roles=["thumbnail"],
             ),
