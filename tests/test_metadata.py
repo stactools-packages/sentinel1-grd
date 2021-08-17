@@ -3,9 +3,9 @@ import unittest
 from shapely.geometry import box, mapping, shape
 
 from stactools.core.projection import reproject_geom
-from stactools.sentinel1_grd.safe_manifest import SafeManifest
-from stactools.sentinel1_grd.product_metadata import ProductMetadata
-from stactools.sentinel1_grd.granule_metadata import GranuleMetadata
+from stactools.sentinel1-grd.safe_manifest import SafeManifest
+from stactools.sentinel1-grd.product_metadata import ProductMetadata
+from stactools.sentinel1-grd.granule_metadata import GranuleMetadata
 
 from tests import test_data
 

@@ -12,22 +12,22 @@ from pystac.extensions.proj import ProjectionExtension
 
 from stactools.core.io import ReadHrefModifier
 
-from stactools.sentinel1_grd.metadata_links import MetadataLinks
-from stactools.sentinel1_grd.product_metadata import ProductMetadata
+from stactools.sentinel1-grd.metadata_links import MetadataLinks
+from stactools.sentinel1-grd.product_metadata import ProductMetadata
 
-from stactools.sentinel1_grd.constants import (
+from stactools.sentinel1-grd.constants import (
     SENTINEL_PROVIDER,
     SENTINEL_CONSTELLATION,
     SENTINEL_LICENSE,
 )
 
-from stactools.sentinel1_grd.properties import (
+from stactools.sentinel1-grd.properties import (
     fill_sar_properties,
     fill_sat_properties,
     fill_proj_properties,
 )
 
-from stactools.sentinel1_grd.bands import image_asset_from_href
+from stactools.sentinel1-grd.bands import image_asset_from_href
 
 logger = logging.getLogger(__name__)
 

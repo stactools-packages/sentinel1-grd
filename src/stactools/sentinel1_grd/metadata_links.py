@@ -6,7 +6,7 @@ import pystac
 from stactools.core.io import ReadHrefModifier
 from stactools.core.io.xml import XmlElement
 
-from stactools.sentinel1_grd.constants import SAFE_MANIFEST_ASSET_KEY
+from stactools.sentinel1-grd.constants import SAFE_MANIFEST_ASSET_KEY
 
 
 class ManifestError(Exception):
