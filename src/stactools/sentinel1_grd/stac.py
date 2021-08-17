@@ -7,6 +7,8 @@ import pystac
 from pystac.extensions.eo import EOExtension
 from pystac.extensions.sar import SarExtension
 from pystac.extensions.sat import SatExtension
+from pystac.extensions.proj import ProjectionExtension
+
 
 from stactools.core.io import ReadHrefModifier
 
@@ -19,7 +21,11 @@ from stactools.sentinel1_grd.constants import (
     SENTINEL_LICENSE,
 )
 
-from stactools.sentinel1_grd.properties import fill_sar_properties, fill_sat_properties
+from stactools.sentinel1_grd.properties import (
+    fill_sar_properties,
+    fill_sat_properties,
+    fill_proj_properties,
+)
 
 from stactools.sentinel1_grd.bands import image_asset_from_href
 
@@ -68,6 +74,10 @@ def create_item(
 
     # eo
     eo = EOExtension.ext(item, add_if_missing=True)
+
+    # proj
+    proj = ProjectionExtension.ext(item, add_if_missing=True)
+    fill_proj_properties(proj, metalinks, product_metadata)
 
     # --Common metadata--
     item.common_metadata.providers = [SENTINEL_PROVIDER]
