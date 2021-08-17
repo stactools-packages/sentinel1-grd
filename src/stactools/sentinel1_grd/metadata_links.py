@@ -74,8 +74,47 @@ class MetadataLinks:
             if x.endswith("xml") and "noise" in x
         ]
 
-    def create_asset(self):
+    def create_manifest_asset(self):
         asset = pystac.Asset(
             href=self.href, media_type=pystac.MediaType.XML, roles=["metadata"]
         )
         return (SAFE_MANIFEST_ASSET_KEY, asset)
+
+    def create_product_asset(self):
+        assets = []
+        for x in self.annotation_hrefs:
+            asset = pystac.Asset(
+                href=x,
+                media_type=pystac.MediaType.XML,
+                title="Product Schema",
+                roles=["metadata"],
+            )
+            assets.append((f"product_{x.split('-')[1]}_{x.split('-')[3]}", asset))
+
+        return assets
+
+    def create_calibration_asset(self):
+        assets = []
+        for x in self.calibration_hrefs:
+            asset = pystac.Asset(
+                href=x,
+                media_type=pystac.MediaType.XML,
+                title="Calibration Schema",
+                roles=["metadata"],
+            )
+            assets.append((f"calibration_{x.split('-')[2]}_{x.split('-')[4]}", asset))
+
+        return assets
+
+    def create_noise_asset(self):
+        assets = []
+        for x in self.noise_hrefs:
+            asset = pystac.Asset(
+                href=x,
+                media_type=pystac.MediaType.XML,
+                title="Noise Schema",
+                roles=["metadata"],
+            )
+            assets.append((f"noise_{x.split('-')[2]}_{x.split('-')[4]}", asset))
+
+        return assets

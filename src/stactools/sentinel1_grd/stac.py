@@ -1,25 +1,27 @@
 import logging
 import os
 import re
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, Optional
 
 import pystac
 from pystac.extensions.eo import EOExtension
-from pystac.extensions.projection import ProjectionExtension
-from pystac.extensions.sat import OrbitState, SatExtension
+from pystac.extensions.sar import SarExtension
+from pystac.extensions.sat import SatExtension
 
 from stactools.core.io import ReadHrefModifier
-from stactools.core.projection import transform_from_bbox
 
 from stactools.sentinel1_grd.metadata_links import MetadataLinks
 from stactools.sentinel1_grd.product_metadata import ProductMetadata
+
 from stactools.sentinel1_grd.constants import (
     SENTINEL_PROVIDER,
     SENTINEL_CONSTELLATION,
-    INSPIRE_METADATA_ASSET_KEY,
     SENTINEL_LICENSE,
 )
-from stactools.sentinel1_grd.utils import image_asset_from_href
+
+from stactools.sentinel1_grd.properties import fill_sar_properties, fill_sat_properties
+
+from stactools.sentinel1_grd.bands import image_asset_from_href
 
 logger = logging.getLogger(__name__)
 
@@ -52,64 +54,52 @@ def create_item(
         bbox=product_metadata.bbox,
         datetime=product_metadata.datetime,
         properties={},
+        stac_extensions=[],
     )
+
+    # ---- Add Extensions ----
+    # sar
+    sar = SarExtension.ext(item, add_if_missing=True)
+    fill_sar_properties(sar, metalinks.product_metadata_href)
+
+    # sat
+    sat = SatExtension.ext(item, add_if_missing=True)
+    fill_sat_properties(sat, metalinks.product_metadata_href)
+
+    # eo
+    eo = EOExtension.ext(item, add_if_missing=True)
 
     # --Common metadata--
     item.common_metadata.providers = [SENTINEL_PROVIDER]
     item.common_metadata.platform = product_metadata.platform
     item.common_metadata.constellation = SENTINEL_CONSTELLATION
 
-    # --Extensions--
-
-    # eo
-    eo = EOExtension.ext(item, add_if_missing=True)
-
-    # sat
-    sat = SatExtension.ext(item, add_if_missing=True)
-    sat.orbit_state = OrbitState(product_metadata.orbit_state.lower())
-    sat.orbit_number = product_metadata.orbit_number
-    sat.cycle_number = product_metadata.cycle_number
-    sat.relative_orbit = product_metadata.relative_orbit
-
     # s1 properties
     item.properties.update({**product_metadata.metadata_dict})
 
-    # --Assets--
-
-    # Metadata
-    item.add_asset(*metalinks.create_asset())
-    item.add_asset(*product_metadata.create_asset())
+    # Add assets to item
+    item.add_asset(*metalinks.create_manifest_asset())
 
     # Annotations for bands
-    for x in product_metadata.metadata_dict["s1:polarisation"]:
-        item.add_asset(
-            f"{x}_annotation",
-            pystac.Asset(
-                href=[s for s in metalinks.annotation_hrefs if x.lower() in s][0],
-                media_type=pystac.MediaType.XML,
-                roles=["metadata"],
-            ),
-        )
+    for asset_obj in metalinks.create_product_asset():
+        item.add_asset(asset_obj[0], asset_obj[1])
 
-    # Calibratin for bands
-    for x in product_metadata.metadata_dict["s1:polarisation"]:
-        item.add_asset(
-            f"{x}_calibration",
-            pystac.Asset(
-                href=[s for s in metalinks.calibration_hrefs if x.lower() in s][0],
-                media_type=pystac.MediaType.XML,
-                roles=["metadata"],
-            ),
-        )
+    # Calibrations for bands
+    for asset_obj in metalinks.create_calibration_asset():
+        item.add_asset(asset_obj[0], asset_obj[1])
 
     # Noise for bands
-    for x in product_metadata.metadata_dict["s1:polarisation"]:
+    for asset_obj in metalinks.create_noise_asset():
+        item.add_asset(asset_obj[0], asset_obj[1])
+
+    # Thumbnail
+    if metalinks.thumbnail_href is not None:
         item.add_asset(
-            f"{x}_noise",
+            "thumbnail",
             pystac.Asset(
-                href=[s for s in metalinks.noise_hrefs if x.lower() in s][0],
-                media_type=pystac.MediaType.XML,
-                roles=["metadata"],
+                href=metalinks.thumbnail_href,
+                media_type=pystac.MediaType.PNG,
+                roles=["thumbnail"],
             ),
         )
 
@@ -123,21 +113,11 @@ def create_item(
         ]
     )
 
+    print(image_assets)
+
     for key, asset in image_assets.items():
         assert key not in item.assets
         item.add_asset(key, asset)
-
-    # Thumbnail
-
-    if metalinks.thumbnail_href is not None:
-        item.add_asset(
-            "preview",
-            pystac.Asset(
-                href=metalinks.thumbnail_href,
-                media_type=pystac.MediaType.PNG,
-                roles=["thumbnail"],
-            ),
-        )
 
     # --Links--
     item.links.append(SENTINEL_LICENSE)

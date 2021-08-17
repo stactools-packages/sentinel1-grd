@@ -4,14 +4,10 @@ import os
 from typing import Any, Dict, List, Optional
 
 from shapely.geometry import mapping, Polygon
-import pystac
 from pystac.utils import str_to_datetime
 
 from stactools.core.io import ReadHrefModifier
 from stactools.core.io.xml import XmlElement
-from stactools.core.utils import map_opt
-
-from stactools.sentinel1_grd.constants import PRODUCT_METADATA_ASSET_KEY
 
 
 class ProductMetadataError(Exception):
@@ -88,7 +84,41 @@ class ProductMetadata:
 
     @property
     def datetime(self) -> datetime:
+        start_time = self._root.findall(".//safe:startTime")[0].text
+        end_time = self._root.findall(".//safe:stopTime")[0].text
+
+        central_time = (
+            datetime.strptime(start_time, "%Y-%m-%dT%H:%M:%S.%f")
+            + (
+                datetime.strptime(end_time, "%Y-%m-%dT%H:%M:%S.%f")
+                - datetime.strptime(start_time, "%Y-%m-%dT%H:%M:%S.%f")
+            )
+            / 2
+        )
+
+        if central_time is None:
+            raise ValueError(
+                "Cannot determine product start time using product metadata "
+                f"at {self.href}"
+            )
+        else:
+            return str_to_datetime(str(central_time))
+
+    @property
+    def start_datetime(self) -> datetime:
         time = self._root.findall(".//safe:startTime")
+
+        if time is None:
+            raise ValueError(
+                "Cannot determine product start time using product metadata "
+                f"at {self.href}"
+            )
+        else:
+            return str_to_datetime(time[0].text)
+
+    @property
+    def end_datetime(self) -> datetime:
+        time = self._root.findall(".//safe:stopTime")
 
         if time is None:
             raise ValueError(
@@ -112,21 +142,6 @@ class ProductMetadata:
         return self._root.findall(".//safe:cycleNumber")[0].text
 
     @property
-    def orbit_number(self) -> Optional[str]:
-
-        return self._root.findall(".//safe:orbitNumber")[0].text
-
-    @property
-    def orbit_state(self) -> Optional[str]:
-
-        return self._root.findall(".//s1:pass")[0].text
-
-    @property
-    def relative_orbit(self) -> Optional[str]:
-
-        return self._root.findall(".//safe:relativeOrbitNumber")[0].text
-
-    @property
     def image_paths(self) -> Optional[str]:
         head_folder = os.path.dirname(self.href)
         measurements = os.path.join(head_folder, "measurement")
@@ -135,27 +150,14 @@ class ProductMetadata:
     @property
     def metadata_dict(self) -> Dict[str, Any]:
         result = {
-            "s1:product_uri": self.product_id,
+            "start_datetime": str(self.start_datetime),
+            "end_datetime": str(self.end_datetime),
             "s1:instrument_configuration_ID": self._root.findall(
                 ".//s1sarl1:instrumentConfigurationID"
             )[0].text,
-            "s1:product_type": self._root.findall(".//s1sarl1:productType")[0].text,
-            "s1:instrument_mode": self._root.findall(".//s1sarl1:mode")[0].text,
             "s1:datatake_id": self._root.findall(".//s1sarl1:missionDataTakeID")[
                 0
             ].text,
-            "s1:polarisation": [
-                x.text
-                for x in self._root.findall(
-                    ".//s1sarl1:transmitterReceiverPolarisation"
-                )
-            ],
         }
 
         return {k: v for k, v in result.items() if v is not None}
-
-    def create_asset(self):
-        asset = pystac.Asset(
-            href=self.href, media_type=pystac.MediaType.XML, roles=["metadata"]
-        )
-        return (PRODUCT_METADATA_ASSET_KEY, asset)
