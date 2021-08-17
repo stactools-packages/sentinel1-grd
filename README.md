@@ -6,7 +6,7 @@
 - Owner: @maximlamare
 - Dataset homepage: https://registry.opendata.aws/sentinel-1/
 - STAC extensions used:
-  - [proj](https://github.com/stac-extensions/projection/)
+  - [sar](https://github.com/stac-extensions/sar)
   - [eo](https://github.com/stac-extensions/eo)
   - [sat](https://github.com/stac-extensions/sat)
 
