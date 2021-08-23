@@ -1,13 +1,14 @@
 import stactools.core
-from stactools..stac import create_collection, create_item
+from stactools.sentinel1_grd.stac import create_collection, create_item
 
-__all__ = ['create_collection', 'create_item']
+__all__ = ["create_collection", "create_item"]
 
 stactools.core.use_fsspec()
 
 
 def register_plugin(registry):
-    from stactools. import commands
+    from stactools.sentinel1_grd import commands
+
     registry.register_subcommand(commands.create_sentinel1grd_command)
 
 
