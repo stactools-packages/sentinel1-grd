@@ -16,8 +16,9 @@ class ProductMetadataError(Exception):
 
 class ProductMetadata:
     def __init__(
-        self, href, read_href_modifier: Optional[ReadHrefModifier] = None
-    ) -> None:
+            self,
+            href,
+            read_href_modifier: Optional[ReadHrefModifier] = None) -> None:
         self.href = href
         self._root = XmlElement.from_file(href, read_href_modifier)
 
@@ -30,7 +31,8 @@ class ProductMetadata:
                 )
             # Convert to values
             footprint_value = [
-                float(x) for x in footprint_text[0].text.replace(" ", ",").split(",")
+                float(x)
+                for x in footprint_text[0].text.replace(" ", ",").split(",")
             ]
 
             footprint_points = [
@@ -58,13 +60,11 @@ class ProductMetadata:
         product_id = self.product_id
         # Ensure the product id is as expected.
         if not product_id.endswith(".SAFE"):
-            raise ValueError(
-                "Unexpected value found at "
-                f"{product_id}: "
-                "this was expected to follow the sentinel 2 "
-                "naming convention, including "
-                "ending in .SAFE"
-            )
+            raise ValueError("Unexpected value found at "
+                             f"{product_id}: "
+                             "this was expected to follow the sentinel 2 "
+                             "naming convention, including "
+                             "ending in .SAFE")
 
         scene_id = self.product_id.split(".")[0]
 
@@ -77,8 +77,8 @@ class ProductMetadata:
         result = href.split("/")[-2]
         if result is None:
             raise ValueError(
-                "Cannot determine product ID using product metadata " f"at {self.href}"
-            )
+                "Cannot determine product ID using product metadata "
+                f"at {self.href}")
         else:
             return result
 
@@ -88,19 +88,14 @@ class ProductMetadata:
         end_time = self._root.findall(".//safe:stopTime")[0].text
 
         central_time = (
-            datetime.strptime(start_time, "%Y-%m-%dT%H:%M:%S.%f")
-            + (
-                datetime.strptime(end_time, "%Y-%m-%dT%H:%M:%S.%f")
-                - datetime.strptime(start_time, "%Y-%m-%dT%H:%M:%S.%f")
-            )
-            / 2
-        )
+            datetime.strptime(start_time, "%Y-%m-%dT%H:%M:%S.%f") +
+            (datetime.strptime(end_time, "%Y-%m-%dT%H:%M:%S.%f") -
+             datetime.strptime(start_time, "%Y-%m-%dT%H:%M:%S.%f")) / 2)
 
         if central_time is None:
             raise ValueError(
                 "Cannot determine product start time using product metadata "
-                f"at {self.href}"
-            )
+                f"at {self.href}")
         else:
             return str_to_datetime(str(central_time))
 
@@ -111,8 +106,7 @@ class ProductMetadata:
         if time is None:
             raise ValueError(
                 "Cannot determine product start time using product metadata "
-                f"at {self.href}"
-            )
+                f"at {self.href}")
         else:
             return str_to_datetime(time[0].text)
 
@@ -123,8 +117,7 @@ class ProductMetadata:
         if time is None:
             raise ValueError(
                 "Cannot determine product start time using product metadata "
-                f"at {self.href}"
-            )
+                f"at {self.href}")
         else:
             return str_to_datetime(time[0].text)
 
@@ -150,14 +143,14 @@ class ProductMetadata:
     @property
     def metadata_dict(self) -> Dict[str, Any]:
         result = {
-            "start_datetime": str(self.start_datetime),
-            "end_datetime": str(self.end_datetime),
-            "s1:instrument_configuration_ID": self._root.findall(
-                ".//s1sarl1:instrumentConfigurationID"
-            )[0].text,
-            "s1:datatake_id": self._root.findall(".//s1sarl1:missionDataTakeID")[
-                0
-            ].text,
+            "start_datetime":
+            str(self.start_datetime),
+            "end_datetime":
+            str(self.end_datetime),
+            "s1:instrument_configuration_ID":
+            self._root.findall(".//s1sarl1:instrumentConfigurationID")[0].text,
+            "s1:datatake_id":
+            self._root.findall(".//s1sarl1:missionDataTakeID")[0].text,
         }
 
         return {k: v for k, v in result.items() if v is not None}

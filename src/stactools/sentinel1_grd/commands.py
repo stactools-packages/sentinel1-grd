@@ -8,7 +8,6 @@ logger = logging.getLogger(__name__)
 
 def create_sentinel1grd_command(cli):
     """Creates the stactools- command line utility."""
-
     @cli.group(
         "sentinel1grd",
         short_help=("Commands for working with stactools-"),

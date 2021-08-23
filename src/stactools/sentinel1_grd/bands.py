@@ -25,7 +25,8 @@ def image_asset_from_href(
         if ext.lower() in [".tiff", ".tif"]:
             asset_media_type = pystac.MediaType.GEOTIFF
         else:
-            raise Exception(f"Must supply a media type for asset : {asset_href}")
+            raise Exception(
+                f"Must supply a media type for asset : {asset_href}")
 
     # Handle band image
     band_id = os.path.basename(asset_href).split("-")[3]

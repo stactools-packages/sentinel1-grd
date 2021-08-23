@@ -14,9 +14,9 @@ class ManifestError(Exception):
 
 
 class MetadataLinks:
-    def __init__(
-        self, granule_href: str, read_href_modifier: Optional[ReadHrefModifier] = None
-    ):
+    def __init__(self,
+                 granule_href: str,
+                 read_href_modifier: Optional[ReadHrefModifier] = None):
         self.granule_href = granule_href
         self.href = os.path.join(granule_href, "manifest.safe")
 
@@ -24,9 +24,9 @@ class MetadataLinks:
         self._data_object_section = root.find("dataObjectSection")
         if self._data_object_section is None:
             raise ManifestError(
-                f"Manifest at {self.href} does not have a dataObjectSection"
-            )
-        self.product_metadata_href = os.path.join(granule_href, "manifest.safe")
+                f"Manifest at {self.href} does not have a dataObjectSection")
+        self.product_metadata_href = os.path.join(granule_href,
+                                                  "manifest.safe")
 
     def _find_href(self, xpaths: List[str]) -> Optional[str]:
         file_path = None
@@ -52,13 +52,13 @@ class MetadataLinks:
         annotation_path = os.path.join(self.granule_href, "annotation")
         return [
             os.path.join(annotation_path, x)
-            for x in os.listdir(annotation_path)
-            if x.endswith("xml")
+            for x in os.listdir(annotation_path) if x.endswith("xml")
         ]
 
     @property
     def calibration_hrefs(self) -> Optional[str]:
-        calibration_path = os.path.join(self.granule_href, "annotation/calibration")
+        calibration_path = os.path.join(self.granule_href,
+                                        "annotation/calibration")
         return [
             os.path.join(calibration_path, x)
             for x in os.listdir(calibration_path)
@@ -67,7 +67,8 @@ class MetadataLinks:
 
     @property
     def noise_hrefs(self) -> Optional[str]:
-        calibration_path = os.path.join(self.granule_href, "annotation/calibration")
+        calibration_path = os.path.join(self.granule_href,
+                                        "annotation/calibration")
         return [
             os.path.join(calibration_path, x)
             for x in os.listdir(calibration_path)
@@ -75,9 +76,9 @@ class MetadataLinks:
         ]
 
     def create_manifest_asset(self):
-        asset = pystac.Asset(
-            href=self.href, media_type=pystac.MediaType.XML, roles=["metadata"]
-        )
+        asset = pystac.Asset(href=self.href,
+                             media_type=pystac.MediaType.XML,
+                             roles=["metadata"])
         return (SAFE_MANIFEST_ASSET_KEY, asset)
 
     def create_product_asset(self):
@@ -89,7 +90,8 @@ class MetadataLinks:
                 title="Product Schema",
                 roles=["metadata"],
             )
-            assets.append((f"product_{x.split('-')[1]}_{x.split('-')[3]}", asset))
+            assets.append(
+                (f"product_{x.split('-')[1]}_{x.split('-')[3]}", asset))
 
         return assets
 
@@ -102,7 +104,8 @@ class MetadataLinks:
                 title="Calibration Schema",
                 roles=["metadata"],
             )
-            assets.append((f"calibration_{x.split('-')[2]}_{x.split('-')[4]}", asset))
+            assets.append(
+                (f"calibration_{x.split('-')[2]}_{x.split('-')[4]}", asset))
 
         return assets
 
@@ -115,6 +118,7 @@ class MetadataLinks:
                 title="Noise Schema",
                 roles=["metadata"],
             )
-            assets.append((f"noise_{x.split('-')[2]}_{x.split('-')[4]}", asset))
+            assets.append(
+                (f"noise_{x.split('-')[2]}_{x.split('-')[4]}", asset))
 
         return assets

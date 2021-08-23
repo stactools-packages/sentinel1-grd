@@ -9,7 +9,6 @@ from pystac.extensions.sar import SarExtension
 from pystac.extensions.sat import SatExtension
 from pystac.extensions.proj import ProjectionExtension
 
-
 from stactools.core.io import ReadHrefModifier
 
 from stactools.sentinel1_grd.metadata_links import MetadataLinks
@@ -50,9 +49,8 @@ def create_item(
 
     metalinks = MetadataLinks(granule_href, read_href_modifier)
 
-    product_metadata = ProductMetadata(
-        metalinks.product_metadata_href, read_href_modifier
-    )
+    product_metadata = ProductMetadata(metalinks.product_metadata_href,
+                                       read_href_modifier)
 
     item = pystac.Item(
         id=product_metadata.scene_id,
@@ -113,15 +111,12 @@ def create_item(
             ),
         )
 
-    image_assets = dict(
-        [
-            image_asset_from_href(
-                os.path.join(granule_href, image_path),
-                item,
-            )
-            for image_path in product_metadata.image_paths
-        ]
-    )
+    image_assets = dict([
+        image_asset_from_href(
+            os.path.join(granule_href, image_path),
+            item,
+        ) for image_path in product_metadata.image_paths
+    ])
 
     print(image_assets)
 
