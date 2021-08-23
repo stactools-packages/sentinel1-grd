@@ -43,4 +43,5 @@ class CreateItemTest(CliTestCase):
                     if bands is not None:
                         bands_seen |= set(b.name for b in bands)
 
-                self.assertEqual(bands_seen, set(SENTINEL_POLARISATIONS.keys()))
+                self.assertEqual(bands_seen,
+                                 set(SENTINEL_POLARISATIONS.keys()))
