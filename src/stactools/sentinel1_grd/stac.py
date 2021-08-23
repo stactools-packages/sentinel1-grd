@@ -1,14 +1,11 @@
 import logging
 import os
-from typing import Optional
 
 import pystac
 from pystac.extensions.eo import EOExtension
 from pystac.extensions.sar import SarExtension
 from pystac.extensions.sat import SatExtension
 from pystac.extensions.proj import ProjectionExtension
-
-from stactools.core.io import ReadHrefModifier
 
 from stactools.sentinel1_grd.metadata_links import MetadataLinks
 from stactools.sentinel1_grd.product_metadata import ProductMetadata
@@ -34,11 +31,8 @@ def create_item(granule_href: str) -> pystac.Item:
     """Create a STC Item from a Sentinel-1 GRD scene.
 
     Args:
-        granule_href (str): The HREF to the granule. This is expected to be a path to a SAFE archive.
-        read_href_modifier (Optional[ReadHrefModifier], optional): A function that takes an HREF and returns
-        a modified HREF. This can be used to modify a HREF to make it readable, e.g. appending an Azure SAS token
-        or creating a signed URL.
-        Defaults to None.
+        granule_href (str): The HREF to the granule.
+            This is expected to be a path to a SAFE archive.
 
     Returns:
         pystac.Item: An item representing the Sentinel-1 GRD scene.

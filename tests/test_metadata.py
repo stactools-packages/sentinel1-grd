@@ -44,26 +44,33 @@ class Sentinel1MetadataTest(unittest.TestCase):
             "s1:polarisation": ["VV", "VH"],
             # From manifest metadata
             "annotation_hrefs": [
-                "data-files/S1A_IW_GRDH_1SDV_20210809T173953_20210809T174018_039156_049F13_6FF8.SAFE/"
-                "annotation/s1a-iw-grd-vv-20210809t173953-20210809t174018-039156-049f13-001.xml",
-                "data-files/S1A_IW_GRDH_1SDV_20210809T173953_20210809T174018_039156_049F13_6FF8.SAFE/annotation/"
-                "s1a-iw-grd-vh-20210809t173953-20210809t174018-039156-049f13-002.xml",
+                "data-files/S1A_IW_GRDH_1SDV_20210809T173953_20210809T174018_039156_049F13"
+                "_6FF8.SAFE/annotation/s1a-iw-grd-vv-20210809t173953-20210809t174018-039156-049f13"
+                "-001.xml",
+                "data-files/S1A_IW_GRDH_1SDV_20210809T173953_20210809T174018_039156_049F13_6FF8"
+                ".SAFE/annotation/s1a-iw-grd-vh-20210809t173953-20210809t174018-039156-049f13-"
+                "002.xml",
             ],
             "calibration_hrefs": [
-                "data-files/S1A_IW_GRDH_1SDV_20210809T173953_20210809T174018_039156_049F13_6FF8.SAFE/annotation/"
-                "calibration/calibration-s1a-iw-grd-vh-20210809t173953-20210809t174018-039156-049f13-002.xml",
-                "data-files/S1A_IW_GRDH_1SDV_20210809T173953_20210809T174018_039156_049F13_6FF8.SAFE/annotation/"
-                "calibration/calibration-s1a-iw-grd-vv-20210809t173953-20210809t174018-039156-049f13-001.xml",
+                "data-files/S1A_IW_GRDH_1SDV_20210809T173953_20210809T174018_039156_049F13_6FF8"
+                ".SAFE/annotation/calibration/calibration-s1a-iw-grd-vh-20210809t173953-20210809"
+                "t174018-039156-049f13-002.xml",
+                "data-files/S1A_IW_GRDH_1SDV_20210809T173953_20210809T174018_039156_049F13_6FF8"
+                ".SAFE/annotation/calibration/calibration-s1a-iw-grd-vv-20210809t173953-20210809"
+                "t174018-039156-049f13-001.xml",
             ],
             "granule_href":
             "data-files/S1A_IW_GRDH_1SDV_20210809T173953_20210809T174018_039156_049F13_6FF8.SAFE",
             "href":
-            "data-files/S1A_IW_GRDH_1SDV_20210809T173953_20210809T174018_039156_049F13_6FF8.SAFE/manifest.safe",
+            "data-files/S1A_IW_GRDH_1SDV_20210809T173953_20210809T174018_039156_049F13_6FF8.SAFE/"
+            "manifest.safe",
             "noise_hrefs": [
-                "data-files/S1A_IW_GRDH_1SDV_20210809T173953_20210809T174018_039156_049F13_6FF8.SAFE/annotation/"
-                "calibration/noise-s1a-iw-grd-vh-20210809t173953-20210809t174018-039156-049f13-002.xml",
-                "data-files/S1A_IW_GRDH_1SDV_20210809T173953_20210809T174018_039156_049F13_6FF8.SAFE/annotation/"
-                "calibration/noise-s1a-iw-grd-vv-20210809t173953-20210809t174018-039156-049f13-001.xml",
+                "data-files/S1A_IW_GRDH_1SDV_20210809T173953_20210809T174018_039156_049F13_6FF8"
+                ".SAFE/annotation/calibration/noise-s1a-iw-grd-vh-20210809t173953-20210809t174018"
+                "-039156-049f13-002.xml",
+                "data-files/S1A_IW_GRDH_1SDV_20210809T173953_20210809T174018_039156_049F13_6FF8"
+                ".SAFE/annotation/calibration/noise-s1a-iw-grd-vv-20210809t173953-20210809t174018"
+                "-039156-049f13-001.xml",
             ],
             "thumbnail_href":
             "data-files/S1A_IW_GRDH_1SDV_20210809T173953_20210809T174018_039156_049F13_6FF8.SAFE/"
