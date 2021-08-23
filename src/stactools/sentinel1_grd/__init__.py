@@ -1,5 +1,5 @@
 import stactools.core
-from stactools.sentinel1_grd.stac import create_collection, create_item
+from stactools.sentinel1_grd.stac import create_item
 
 __all__ = ["create_collection", "create_item"]
 

@@ -1,6 +1,6 @@
 import pystac
+from pystac import ProviderRole
 from pystac.link import Link
-
 from pystac.extensions.eo import Band
 
 INSPIRE_METADATA_ASSET_KEY = "inspire-metadata"
@@ -23,7 +23,11 @@ SENTINEL_CONSTELLATION = "Sentinel 1"
 
 SENTINEL_PROVIDER = pystac.Provider(
     name="ESA",
-    roles=["producer", "processor", "licensor"],
+    roles=[
+        ProviderRole["producer"],
+        ProviderRole["processor"],
+        ProviderRole["licensor"],
+    ],
     url="https://earth.esa.int/web/guest/home",
 )
 
