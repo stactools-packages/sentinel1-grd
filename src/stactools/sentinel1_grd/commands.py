@@ -1,7 +1,7 @@
 import click
 import logging
 
-from stactools.sentinel1-grd import stac
+from stactools.sentinel1_grd import stac
 
 logger = logging.getLogger(__name__)
 
