@@ -1,5 +1,6 @@
 import click
 import logging
+import os
 
 from stactools.sentinel1_grd.stac import create_item
 
