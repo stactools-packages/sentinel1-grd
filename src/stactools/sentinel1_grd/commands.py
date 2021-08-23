@@ -7,11 +7,11 @@ logger = logging.getLogger(__name__)
 
 
 def create_sentinel1grd_command(cli):
-    """Creates the stactools-sentinel1-grd command line utility."""
+    """Creates the stactools- command line utility."""
 
     @cli.group(
         "sentinel1grd",
-        short_help=("Commands for working with stactools-sentinel1-grd"),
+        short_help=("Commands for working with stactools-"),
     )
     def sentinel1grd():
         pass

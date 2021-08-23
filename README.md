@@ -1,6 +1,6 @@
-# sentinel1-grd
+#
 
-- Name: sentinel1-grd
+- Name:
 - Package: `stactools.sentinel1_grd`
 - PyPI: Coming soon
 - Owner: @maximlamare
