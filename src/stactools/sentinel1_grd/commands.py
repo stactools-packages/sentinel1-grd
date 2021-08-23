@@ -1,13 +1,14 @@
 import click
 import logging
 
-from stactools.sentinel1_grd import stac
+from stactools.sentinel1_grd.stac import create_item
 
 logger = logging.getLogger(__name__)
 
 
 def create_sentinel1grd_command(cli):
     """Creates the stactools- command line utility."""
+
     @cli.group(
         "sentinel1grd",
         short_help=("Commands for working with stactools-"),
@@ -28,7 +29,7 @@ def create_sentinel1grd_command(cli):
             src (str): path to the scene
             dst (str): path to the STAC Item JSON file that will be created
         """
-        item = create_item(src, additional_providers=additional_providers)
+        item = create_item(src)
 
         item_path = os.path.join(dst, "{}.json".format(item.id))
         item.set_self_href(item_path)

@@ -1,6 +1,6 @@
 from stactools.core.io.xml import XmlElement
 from pystac.extensions.sar import FrequencyBand, Polarization
-from pystac.extensions.sat import OrbitState, SatExtension
+from pystac.extensions.sat import OrbitState
 
 
 def fill_sar_properties(sar_ext, href):
@@ -49,16 +49,16 @@ def fill_sat_properties(sat_ext, href):
     # Read meta file
     root = XmlElement.from_file(href)
 
-    sat_ext.platform_international_designator = root.findall(
-        ".//safe:nssdcIdentifier")[0].text
+    sat_ext.platform_international_designator = root.findall(".//safe:nssdcIdentifier")[
+        0
+    ].text
 
     orbit_state = root.findall(".//s1:pass")[0].text
     sat_ext.orbit_state = OrbitState(orbit_state.lower())
 
     sat_ext.absolute_orbit = root.findall(".//safe:orbitNumber")[0].text
 
-    sat_ext.relative_orbit = root.findall(
-        ".//safe:relativeOrbitNumber")[0].text
+    sat_ext.relative_orbit = root.findall(".//safe:relativeOrbitNumber")[0].text
 
 
 def fill_proj_properties(proj_ext, meta_links, product_meta):

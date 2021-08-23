@@ -1,7 +1,6 @@
 import logging
 import os
-import re
-from typing import Dict, Optional
+from typing import Optional
 
 import pystac
 from pystac.extensions.eo import EOExtension
@@ -31,26 +30,23 @@ from stactools.sentinel1_grd.bands import image_asset_from_href
 logger = logging.getLogger(__name__)
 
 
-def create_item(
-    granule_href: str,
-    read_href_modifier: Optional[ReadHrefModifier] = None,
-) -> pystac.Item:
+def create_item(granule_href: str) -> pystac.Item:
     """Create a STC Item from a Sentinel-1 GRD scene.
 
     Args:
         granule_href (str): The HREF to the granule. This is expected to be a path to a SAFE archive.
-        read_href_modifier (Optional[ReadHrefModifier], optional): A function that takes an HREF and returns a modified HREF.
-        This can be used to modify a HREF to make it readable, e.g. appending an Azure SAS token or creating a signed URL.
+        read_href_modifier (Optional[ReadHrefModifier], optional): A function that takes an HREF and returns
+        a modified HREF. This can be used to modify a HREF to make it readable, e.g. appending an Azure SAS token
+        or creating a signed URL.
         Defaults to None.
 
     Returns:
         pystac.Item: An item representing the Sentinel-1 GRD scene.
     """
 
-    metalinks = MetadataLinks(granule_href, read_href_modifier)
+    metalinks = MetadataLinks(granule_href)
 
-    product_metadata = ProductMetadata(metalinks.product_metadata_href,
-                                       read_href_modifier)
+    product_metadata = ProductMetadata(metalinks.product_metadata_href)
 
     item = pystac.Item(
         id=product_metadata.scene_id,
@@ -71,7 +67,7 @@ def create_item(
     fill_sat_properties(sat, metalinks.product_metadata_href)
 
     # eo
-    eo = EOExtension.ext(item, add_if_missing=True)
+    EOExtension.ext(item, add_if_missing=True)
 
     # proj
     proj = ProjectionExtension.ext(item, add_if_missing=True)
@@ -111,12 +107,15 @@ def create_item(
             ),
         )
 
-    image_assets = dict([
-        image_asset_from_href(
-            os.path.join(granule_href, image_path),
-            item,
-        ) for image_path in product_metadata.image_paths
-    ])
+    image_assets = dict(
+        [
+            image_asset_from_href(
+                os.path.join(granule_href, image_path),
+                item,
+            )
+            for image_path in product_metadata.image_paths
+        ]
+    )
 
     print(image_assets)
 

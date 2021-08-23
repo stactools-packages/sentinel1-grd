@@ -1,11 +1,14 @@
+import os
+import pystac
+from pystac.utils import is_absolute_href
 from tests import test_data
 from tempfile import TemporaryDirectory
+from stactools.testing import CliTestCase
+from pystac.extensions.eo import EOExtension
+from stactools.sentinel1_grd.constants import SENTINEL_POLARISATIONS
 
 
 class CreateItemTest(CliTestCase):
-    def create_subcommand_functions(self):
-        return [create_sentinel1grd_command]
-
     def test_create_item(self):
         item_id = "S2A_MSIL2A_20190212T192651_R013_T07HFE_20201007T160857"
         granule_href = test_data.get_path(
@@ -28,9 +31,8 @@ class CreateItemTest(CliTestCase):
                 self.assertEqual(item.id, item_id)
 
                 bands_seen = set()
-                bands_to_assets = defaultdict(list)
 
-                for key, asset in item.assets.items():
+                for _, asset in item.assets.items():
                     # Ensure that there's no relative path parts
                     # in the asset HREFs
                     self.assertTrue("/./" not in asset.href)
@@ -41,4 +43,4 @@ class CreateItemTest(CliTestCase):
                     if bands is not None:
                         bands_seen |= set(b.name for b in bands)
 
-                self.assertEqual(bands_seen, set(SENTINEL_BANDS.keys()))
+                self.assertEqual(bands_seen, set(SENTINEL_POLARISATIONS.keys()))
