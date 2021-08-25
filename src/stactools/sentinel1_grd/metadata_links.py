@@ -5,7 +5,7 @@ import pystac
 
 from stactools.core.io.xml import XmlElement
 
-from stactools.sentinel1_grd.constants import SAFE_MANIFEST_ASSET_KEY
+from .constants import SAFE_MANIFEST_ASSET_KEY
 
 
 class ManifestError(Exception):
@@ -21,10 +21,12 @@ class MetadataLinks:
         self.href = os.path.join(granule_href, "manifest.safe")
 
         root = XmlElement.from_file(self.href)
-        self._data_object_section = root.find("dataObjectSection")
-        if self._data_object_section is None:
+        data_object_section = root.find("dataObjectSection")
+        if data_object_section is None:
             raise ManifestError(
                 f"Manifest at {self.href} does not have a dataObjectSection")
+
+        self._data_object_section = data_object_section
         self.product_metadata_href = os.path.join(granule_href,
                                                   "manifest.safe")
 
@@ -48,7 +50,7 @@ class MetadataLinks:
         return os.path.join(preview, "quick-look.png")
 
     @property
-    def annotation_hrefs(self) -> Optional[str]:
+    def annotation_hrefs(self) -> List[str]:
         annotation_path = os.path.join(self.granule_href, "annotation")
         return [
             os.path.join(annotation_path, x)
@@ -56,7 +58,7 @@ class MetadataLinks:
         ]
 
     @property
-    def calibration_hrefs(self) -> Optional[str]:
+    def calibration_hrefs(self) -> List[str]:
         calibration_path = os.path.join(self.granule_href,
                                         "annotation/calibration")
         return [
@@ -66,7 +68,7 @@ class MetadataLinks:
         ]
 
     @property
-    def noise_hrefs(self) -> Optional[str]:
+    def noise_hrefs(self) -> List[str]:
         calibration_path = os.path.join(self.granule_href,
                                         "annotation/calibration")
         return [

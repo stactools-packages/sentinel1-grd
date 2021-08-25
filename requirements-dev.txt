@@ -5,11 +5,14 @@ flake8
 jupyter
 mypy
 pylint
+pystac
+shapely
 sphinx
 sphinx-autobuild
 sphinx-click
 sphinxcontrib-fulltoc
 sphinxcontrib-napoleon
+stactools
 types-click
 types-pytz
 yapf

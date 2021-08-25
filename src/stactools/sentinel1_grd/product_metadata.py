@@ -1,8 +1,8 @@
 from datetime import datetime
 import os
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, List
 
-from shapely.geometry import mapping, Polygon
+from shapely.geometry import mapping, Polygon  # type: ignore
 from pystac.utils import str_to_datetime
 
 from stactools.core.io.xml import XmlElement
@@ -81,7 +81,7 @@ class ProductMetadata:
             return result
 
     @property
-    def datetime(self) -> datetime:
+    def get_datetime(self) -> datetime:
         start_time = self._root.findall(".//safe:startTime")[0].text
         end_time = self._root.findall(".//safe:stopTime")[0].text
 
@@ -133,7 +133,7 @@ class ProductMetadata:
         return self._root.findall(".//safe:cycleNumber")[0].text
 
     @property
-    def image_paths(self) -> Optional[str]:
+    def image_paths(self) -> List[str]:
         head_folder = os.path.dirname(self.href)
         measurements = os.path.join(head_folder, "measurement")
         return [x for x in os.listdir(measurements) if x.endswith("tiff")]

@@ -5,24 +5,24 @@ import pystac
 from pystac.extensions.eo import EOExtension
 from pystac.extensions.sar import SarExtension
 from pystac.extensions.sat import SatExtension
-from pystac.extensions.proj import ProjectionExtension
+from pystac.extensions.projection import ProjectionExtension
 
-from stactools.sentinel1_grd.metadata_links import MetadataLinks
-from stactools.sentinel1_grd.product_metadata import ProductMetadata
+from .metadata_links import MetadataLinks
+from .product_metadata import ProductMetadata
 
-from stactools.sentinel1_grd.constants import (
+from .constants import (
     SENTINEL_PROVIDER,
     SENTINEL_CONSTELLATION,
     SENTINEL_LICENSE,
 )
 
-from stactools.sentinel1_grd.properties import (
+from .properties import (
     fill_sar_properties,
     fill_sat_properties,
     fill_proj_properties,
 )
 
-from stactools.sentinel1_grd.bands import image_asset_from_href
+from .bands import image_asset_from_href
 
 logger = logging.getLogger(__name__)
 
@@ -46,7 +46,7 @@ def create_item(granule_href: str) -> pystac.Item:
         id=product_metadata.scene_id,
         geometry=product_metadata.geometry,
         bbox=product_metadata.bbox,
-        datetime=product_metadata.datetime,
+        datetime=product_metadata.get_datetime,
         properties={},
         stac_extensions=[],
     )
