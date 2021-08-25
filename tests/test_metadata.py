@@ -1,8 +1,17 @@
 import unittest
 import pystac
 
+from pystac.extensions.sar import SarExtension
+from pystac.extensions.sat import SatExtension
+from pystac.extensions.projection import ProjectionExtension
 from stactools.sentinel1_grd.metadata_links import MetadataLinks
 from stactools.sentinel1_grd.product_metadata import ProductMetadata
+
+from stactools.sentinel1_grd.properties import (
+    fill_sar_properties,
+    fill_sat_properties,
+    fill_proj_properties,
+)
 
 from tests import test_data
 
@@ -36,9 +45,6 @@ class Sentinel1MetadataTest(unittest.TestCase):
         # sat
         sat = SatExtension.ext(item, add_if_missing=True)
         fill_sat_properties(sat, metalinks.product_metadata_href)
-
-        # eo
-        EOExtension.ext(item, add_if_missing=True)
 
         # proj
         proj = ProjectionExtension.ext(item, add_if_missing=True)
