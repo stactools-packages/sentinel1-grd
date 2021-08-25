@@ -1,6 +1,6 @@
 import os
 import pystac
-import unittest
+from stactools.testing import CliTestCase
 from pystac.utils import is_absolute_href
 from tests import test_data
 from tempfile import TemporaryDirectory
@@ -8,7 +8,7 @@ from pystac.extensions.eo import EOExtension
 from stactools.sentinel1_grd.constants import SENTINEL_POLARISATIONS
 
 
-class CreateItemTest(unittest.TestCase):
+class CreateItemTest(CliTestCase):
     def test_create_item(self):
         item_id = "S2A_MSIL2A_20190212T192651_R013_T07HFE_20201007T160857"
         granule_href = test_data.get_path(
