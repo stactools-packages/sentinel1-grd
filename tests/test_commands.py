@@ -21,7 +21,7 @@ class CreateItemTest(CliTestCase):
 
         with self.subTest(granule_href):
             with TemporaryDirectory() as tmp_dir:
-                cmd = ["sentinel2", "create-item", granule_href, tmp_dir]
+                cmd = ["sentinel1grd", "create-item", granule_href, tmp_dir]
                 self.run_command(cmd)
 
                 jsons = [p for p in os.listdir(tmp_dir) if p.endswith(".json")]
