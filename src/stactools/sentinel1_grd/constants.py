@@ -9,8 +9,8 @@ PRODUCT_METADATA_ASSET_KEY = "product-metadata"
 
 SENTINEL_LICENSE = Link(
     rel="license",
-    target="https://sentinel.esa.int/documents/" +
-    "247904/690755/Sentinel_Data_Legal_Notice",
+    target="https://sentinel.esa.int/documents/"
+    + "247904/690755/Sentinel_Data_Legal_Notice",
 )
 
 ACQUISITION_MODES = [
@@ -24,9 +24,9 @@ SENTINEL_CONSTELLATION = "Sentinel 1"
 SENTINEL_PROVIDER = pystac.Provider(
     name="ESA",
     roles=[
-        ProviderRole["producer"],
-        ProviderRole["processor"],
-        ProviderRole["licensor"],
+        ProviderRole.PRODUCER,
+        ProviderRole.PROCESSOR,
+        ProviderRole.LICENSOR,
     ],
     url="https://earth.esa.int/web/guest/home",
 )
@@ -34,23 +34,19 @@ SENTINEL_PROVIDER = pystac.Provider(
 SAFE_MANIFEST_ASSET_KEY = "safe-manifest"
 
 SENTINEL_POLARISATIONS = {
-    "vh":
-    Band.create(
+    "vh": Band.create(
         name="VH",
         description="vertical transmit and horizontal receive",
     ),
-    "hh":
-    Band.create(
+    "hh": Band.create(
         name="HH",
         description="horizontal transmit and horizontal receive",
     ),
-    "hv":
-    Band.create(
+    "hv": Band.create(
         name="HV",
         description="horizontal transmit and vertical receive",
     ),
-    "vv":
-    Band.create(
+    "vv": Band.create(
         name="VV",
         description="vertical transmit and vertical receive",
     ),
@@ -58,6 +54,6 @@ SENTINEL_POLARISATIONS = {
 
 SENTINEL_LICENSE = Link(
     rel="license",
-    target="https://sentinel.esa.int/documents/" +
-    "247904/690755/Sentinel_Data_Legal_Notice",
+    target="https://sentinel.esa.int/documents/"
+    + "247904/690755/Sentinel_Data_Legal_Notice",
 )
