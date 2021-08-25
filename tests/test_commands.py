@@ -6,7 +6,7 @@ from tests import test_data
 from tempfile import TemporaryDirectory
 from pystac.extensions.eo import EOExtension
 from stactools.sentinel1_grd.constants import SENTINEL_POLARISATIONS
-from stactools.sentinel2.commands import create_sentinel1grd_command
+from stactools.sentinel1_grd.commands import create_sentinel1grd_command
 
 
 class CreateItemTest(CliTestCase):
