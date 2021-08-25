@@ -1,4 +1,5 @@
 import unittest
+import pystac
 
 from stactools.sentinel1_grd.metadata_links import MetadataLinks
 from stactools.sentinel1_grd.product_metadata import ProductMetadata
@@ -8,70 +9,60 @@ from tests import test_data
 
 class Sentinel1MetadataTest(unittest.TestCase):
     def test_parses_product_metadata_properties(self):
+
+        # Get the path of the test xml
         manifest_path = test_data.get_path(
             "data-files/S1A_IW_GRDH_1SDV_20210809T173953_20210809T174018_039156_049F13_6FF8.SAFE"
         )
 
-        manifest = MetadataLinks(manifest_path)
+        metalinks = MetadataLinks(manifest_path)
 
-        # Make a dict of the manifest
-        manifest_dict = {
-            "annotation_hrefs": manifest.annotation_hrefs,
-            "calibration_hrefs": manifest.calibration_hrefs,
-            "granule_href": manifest.granule_href,
-            "href": manifest.href,
-            "noise_hrefs": manifest.noise_hrefs,
-            "thumbnail_href": manifest.thumbnail_href,
+        product_metadata = ProductMetadata(metalinks.product_metadata_href)
+
+        item = pystac.Item(
+            id=product_metadata.scene_id,
+            geometry=product_metadata.geometry,
+            bbox=product_metadata.bbox,
+            datetime=product_metadata.get_datetime,
+            properties={},
+            stac_extensions=[],
+        )
+
+        # ---- Add Extensions ----
+        # sar
+        sar = SarExtension.ext(item, add_if_missing=True)
+        fill_sar_properties(sar, metalinks.product_metadata_href)
+
+        # sat
+        sat = SatExtension.ext(item, add_if_missing=True)
+        fill_sat_properties(sat, metalinks.product_metadata_href)
+
+        # eo
+        EOExtension.ext(item, add_if_missing=True)
+
+        # proj
+        proj = ProjectionExtension.ext(item, add_if_missing=True)
+        fill_proj_properties(proj, metalinks, product_metadata)
+
+        # Make a dictionary of the properties
+        s1_props = {
+            "bbox": item.bbox,
+            "sar_band": item.properties["sar:frequency_band"],
+            "centre_frequency": item.properties["sar:center_frequency"],
+            "polarizations": item.properties["sar:polarizations"],
+            "epsg": item.properties["proj:epsg"],
+            "product_type": item.properties["sar:product_type"],
+            "shape": item.properties["proj:shape"],
         }
 
-        product_metadata = ProductMetadata(manifest.product_metadata_href)
-
-        s1_props = product_metadata.metadata_dict
-        s1_props.update(manifest_dict)
-
         expected = {
-            # From product metadata
-            "start_datetime":
-            "2021-08-09 17:39:53.153776",
-            "end_datetime":
-            "2021-08-09 17:40:18.152800",
-            "s1:instrument_configuration_ID":
-            "7",
-            "s1:datatake_id":
-            "302867",
-            # From manifest metadata
-            "annotation_hrefs": [
-                "data-files/S1A_IW_GRDH_1SDV_20210809T173953_20210809T174018_039156_049F13"
-                "_6FF8.SAFE/annotation/s1a-iw-grd-vv-20210809t173953-20210809t174018-039156-049f13"
-                "-001.xml",
-                "data-files/S1A_IW_GRDH_1SDV_20210809T173953_20210809T174018_039156_049F13_6FF8"
-                ".SAFE/annotation/s1a-iw-grd-vh-20210809t173953-20210809t174018-039156-049f13-"
-                "002.xml",
-            ],
-            "calibration_hrefs": [
-                "data-files/S1A_IW_GRDH_1SDV_20210809T173953_20210809T174018_039156_049F13_6FF8"
-                ".SAFE/annotation/calibration/calibration-s1a-iw-grd-vh-20210809t173953-20210809"
-                "t174018-039156-049f13-002.xml",
-                "data-files/S1A_IW_GRDH_1SDV_20210809T173953_20210809T174018_039156_049F13_6FF8"
-                ".SAFE/annotation/calibration/calibration-s1a-iw-grd-vv-20210809t173953-20210809"
-                "t174018-039156-049f13-001.xml",
-            ],
-            "granule_href":
-            "data-files/S1A_IW_GRDH_1SDV_20210809T173953_20210809T174018_039156_049F13_6FF8.SAFE",
-            "href":
-            "data-files/S1A_IW_GRDH_1SDV_20210809T173953_20210809T174018_039156_049F13_6FF8.SAFE/"
-            "manifest.safe",
-            "noise_hrefs": [
-                "data-files/S1A_IW_GRDH_1SDV_20210809T173953_20210809T174018_039156_049F13_6FF8"
-                ".SAFE/annotation/calibration/noise-s1a-iw-grd-vh-20210809t173953-20210809t174018"
-                "-039156-049f13-002.xml",
-                "data-files/S1A_IW_GRDH_1SDV_20210809T173953_20210809T174018_039156_049F13_6FF8"
-                ".SAFE/annotation/calibration/noise-s1a-iw-grd-vv-20210809t173953-20210809t174018"
-                "-039156-049f13-001.xml",
-            ],
-            "thumbnail_href":
-            "data-files/S1A_IW_GRDH_1SDV_20210809T173953_20210809T174018_039156_049F13_6FF8.SAFE/"
-            "preview/quick-look.png",
+            "bbox": (1.512143, 44.536255, 5.188996, 46.436539),
+            "sar_band": "C",
+            "centre_frequency": 5.405,
+            "polarizations": ["VV", "VH"],
+            "epsg": 4326,
+            "product_type": "GRD",
+            "shape": ["26144", "16676"],
         }
 
         for k, v in expected.items():
