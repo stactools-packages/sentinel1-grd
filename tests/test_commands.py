@@ -5,9 +5,6 @@ from pystac.utils import is_absolute_href
 from tests import test_data
 from tempfile import TemporaryDirectory
 from pystac.extensions.eo import EOExtension
-import sys
-
-sys.path.append("/home/mlamare/repos/stac/sentinel1-grd/src")
 from stactools.sentinel1_grd.constants import SENTINEL_POLARISATIONS
 from stactools.sentinel1_grd.commands import create_sentinel1grd_command
 
