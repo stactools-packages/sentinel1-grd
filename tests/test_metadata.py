@@ -68,7 +68,7 @@ class Sentinel1MetadataTest(unittest.TestCase):
             "polarizations": ["VV", "VH"],
             "epsg": 4326,
             "product_type": "GRD",
-            "shape": ["26144", "16676"],
+            "shape": [26144, 16676],
         }
 
         for k, v in expected.items():

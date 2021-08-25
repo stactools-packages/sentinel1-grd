@@ -55,10 +55,10 @@ def fill_sat_properties(sat_ext, href):
     orbit_state = root.findall(".//s1:pass")[0].text
     sat_ext.orbit_state = OrbitState(orbit_state.lower())
 
-    sat_ext.absolute_orbit = root.findall(".//safe:orbitNumber")[0].text
+    sat_ext.absolute_orbit = int(root.findall(".//safe:orbitNumber")[0].text)
 
-    sat_ext.relative_orbit = root.findall(
-        ".//safe:relativeOrbitNumber")[0].text
+    sat_ext.relative_orbit = int(
+        root.findall(".//safe:relativeOrbitNumber")[0].text)
 
 
 def fill_proj_properties(proj_ext, meta_links, product_meta):
@@ -83,7 +83,7 @@ def fill_proj_properties(proj_ext, meta_links, product_meta):
 
     proj_ext.bbox = product_meta.bbox
 
-    x_size = root.findall(".//numberOfSamples")[0].text
-    y_size = root.findall(".//numberOfLines")[0].text
+    x_size = int(root.findall(".//numberOfSamples")[0].text)
+    y_size = int(root.findall(".//numberOfLines")[0].text)
 
     proj_ext.shape = [x_size, y_size]

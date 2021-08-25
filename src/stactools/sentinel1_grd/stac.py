@@ -103,12 +103,10 @@ def create_item(granule_href: str) -> pystac.Item:
 
     image_assets = dict([
         image_asset_from_href(
-            os.path.join(granule_href, image_path),
+            os.path.join(granule_href, "measurement", image_path),
             item,
         ) for image_path in product_metadata.image_paths
     ])
-
-    print(image_assets)
 
     for key, asset in image_assets.items():
         assert key not in item.assets

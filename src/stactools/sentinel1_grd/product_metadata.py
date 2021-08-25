@@ -95,8 +95,7 @@ class ProductMetadata:
                 "Cannot determine product start time using product metadata "
                 f"at {self.href}")
         else:
-            return f"{central_time}Z"
-            # return str_to_datetime(str(central_time))
+            return str_to_datetime(str(central_time))
 
     @property
     def start_datetime(self) -> datetime:
@@ -107,8 +106,7 @@ class ProductMetadata:
                 "Cannot determine product start time using product metadata "
                 f"at {self.href}")
         else:
-            return f"{time[0].text}Z"
-            # return str_to_datetime(time[0].text)
+            return str_to_datetime(f"{time[0].text}Z")
 
     @property
     def end_datetime(self) -> datetime:
@@ -119,8 +117,7 @@ class ProductMetadata:
                 "Cannot determine product start time using product metadata "
                 f"at {self.href}")
         else:
-            return f"{time[0].text}Z"
-            # return str_to_datetime(time[0].text)
+            return str_to_datetime(f"{time[0].text}Z")
 
     @property
     def platform(self) -> Optional[str]:

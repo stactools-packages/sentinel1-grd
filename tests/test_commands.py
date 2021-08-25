@@ -5,6 +5,7 @@ from pystac.utils import is_absolute_href
 from tests import test_data
 from tempfile import TemporaryDirectory
 from pystac.extensions.eo import EOExtension
+
 from stactools.sentinel1_grd.constants import SENTINEL_POLARISATIONS
 from stactools.sentinel1_grd.commands import create_sentinel1grd_command
 
@@ -30,7 +31,7 @@ class CreateItemTest(CliTestCase):
 
                 item = pystac.Item.from_file(os.path.join(tmp_dir, fname))
 
-                # item.validate()
+                item.validate()
 
                 self.assertEqual(item.id, item_id)
 
