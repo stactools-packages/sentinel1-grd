@@ -1,6 +1,6 @@
 import unittest
 
-from stactools.sentinel1_grd.safe_manifest import SafeManifest
+from stactools.sentinel1_grd.metadata_links import MetadataLinks
 from stactools.sentinel1_grd.product_metadata import ProductMetadata
 
 from tests import test_data
@@ -12,7 +12,7 @@ class Sentinel1MetadataTest(unittest.TestCase):
             "data-files/S1A_IW_GRDH_1SDV_20210809T173953_20210809T174018_039156_049F13_6FF8.SAFE"
         )
 
-        manifest = SafeManifest(manifest_path)
+        manifest = MetadataLinks(manifest_path)
 
         # Make a dict of the manifest
         manifest_dict = {
