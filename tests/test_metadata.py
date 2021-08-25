@@ -31,17 +31,14 @@ class Sentinel1MetadataTest(unittest.TestCase):
 
         expected = {
             # From product metadata
-            "s1:product_uri":
-            "S1A_IW_GRDH_1SDV_20210809T173953_20210809T174018_039156_049F13_6FF8",
+            "start_datetime":
+            "2021-08-09 17:39:53.153776",
+            "end_datetime":
+            "2021-08-09 17:40:18.152800",
             "s1:instrument_configuration_ID":
             "7",
-            "s1:product_type":
-            "GRD",
-            "s1:instrument_mode":
-            "IW",
             "s1:datatake_id":
             "302867",
-            "s1:polarisation": ["VV", "VH"],
             # From manifest metadata
             "annotation_hrefs": [
                 "data-files/S1A_IW_GRDH_1SDV_20210809T173953_20210809T174018_039156_049F13"
