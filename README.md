@@ -2,7 +2,7 @@
 
 - Name:
 - Package: `stactools.sentinel1_grd`
-- PyPI: Coming soon
+- PyPI: https://pypi.org/project/stactools-sentinel1-grd/
 - Owner: @maximlamare
 - Dataset homepage: https://registry.opendata.aws/sentinel-1/
 - STAC extensions used:
@@ -12,7 +12,7 @@
 
 Sentinel-1 subpackage for [stactools](https://github.com/stac-utils/stactools)
 
-**NOTE**: Currently configure for .SAFE format.
+**NOTE**: Currently configured for .SAFE format.
 
 ## Examples
 
