@@ -8,6 +8,7 @@
 - STAC extensions used:
   - [sar](https://github.com/stac-extensions/sar)
   - [eo](https://github.com/stac-extensions/eo)
+  - [proj](https://github.com/stac-extensions/projection)
   - [sat](https://github.com/stac-extensions/sat)
 
 Sentinel-1 subpackage for [stactools](https://github.com/stac-utils/stactools)
