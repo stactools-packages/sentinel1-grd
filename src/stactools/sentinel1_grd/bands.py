@@ -29,7 +29,7 @@ def image_asset_from_href(
                 f"Must supply a media type for asset : {asset_href}")
 
     # Handle band image
-    band_id = os.path.basename(asset_href).split("-")[3]
+    band_id = os.path.basename(asset_href).split(".")[0].split("-")[-1]
     if band_id is not None:
         band = SENTINEL_POLARISATIONS[band_id]
         # Hard code the resolution

@@ -92,8 +92,7 @@ class MetadataLinks:
                 title="Product Schema",
                 roles=["metadata"],
             )
-            assets.append(
-                (f"product_{x.split('-')[1]}_{x.split('-')[3]}", asset))
+            assets.append((f"product-{x.split('.')[0].split('/')[-1]}", asset))
 
         return assets
 
@@ -106,8 +105,7 @@ class MetadataLinks:
                 title="Calibration Schema",
                 roles=["metadata"],
             )
-            assets.append(
-                (f"calibration_{x.split('-')[2]}_{x.split('-')[4]}", asset))
+            assets.append((x.split(".")[0].split("/")[-1], asset))
 
         return assets
 
@@ -120,7 +118,6 @@ class MetadataLinks:
                 title="Noise Schema",
                 roles=["metadata"],
             )
-            assets.append(
-                (f"noise_{x.split('-')[2]}_{x.split('-')[4]}", asset))
+            assets.append((x.split(".")[0].split("/")[-1], asset))
 
         return assets
