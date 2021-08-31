@@ -13,7 +13,7 @@
 
 Sentinel-1 subpackage for [stactools](https://github.com/stac-utils/stactools)
 
-**NOTE**: Currently configured for .SAFE format.
+**NOTE**: Currently configured for .SAFE format or Microsoft Azure.
 
 ## Examples
 

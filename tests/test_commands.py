@@ -41,7 +41,6 @@ class CreateItemTest(CliTestCase):
                     # Ensure that there's no relative path parts
                     # in the asset HREFs
                     self.assertTrue("/./" not in asset.href)
-
                     self.assertTrue(is_absolute_href(asset.href))
                     asset_eo = EOExtension.ext(asset)
                     bands = asset_eo.bands
