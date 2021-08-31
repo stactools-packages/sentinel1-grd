@@ -55,15 +55,6 @@ class ProductMetadata:
         Parsed based on the naming convention found here:
         https://sentinel.esa.int/web/sentinel/user-guides/sentinel-2-msi/naming-convention
         """
-        product_id = self.product_id
-        # Ensure the product id is as expected.
-        if not product_id.endswith(".SAFE"):
-            raise ValueError("Unexpected value found at "
-                             f"{product_id}: "
-                             "this was expected to follow the sentinel 2 "
-                             "naming convention, including "
-                             "ending in .SAFE")
-
         scene_id = self.product_id.split(".")[0]
 
         return scene_id
